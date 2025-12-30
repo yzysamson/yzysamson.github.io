@@ -1,4 +1,4 @@
-console.log("done 2")
+console.log("done 3")
 
 /* ===== LEGEND ===== */
 function buildLegend(){

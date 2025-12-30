@@ -58,6 +58,8 @@ function showApp() {
 
   if (!appInitialized) {
     appInitialized = true;
+    loadAll();        // ⭐【唯一一次】初始化数据 + render
+    setupRealtime(); // ⭐【唯一一次】开启实时同步
   }
 }
 
