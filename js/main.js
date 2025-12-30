@@ -1,5 +1,6 @@
 let appInitialized = false;
 let realtimeStarted = false;
+window.appInitialized = false;
 
 // =====================
 // AUTH UI
@@ -12,23 +13,20 @@ function showLogin() {
   if (userBar) userBar.style.display = 'none';
 }
 
-function showApp() {
+async function showApp() {
   document.getElementById('loginView').style.display = 'none';
   document.getElementById('appView').style.display = 'block';
 
-  const userBar = document.getElementById('userBar');
-  if (userBar) userBar.style.display = 'inline-flex';
+  // ⭐ 先完整初始化
+  await loadAll();
 
-  if (!realtimeStarted) {
-    realtimeStarted = true;
-    setupRealtime(); // ⭐ 真正只跑一次
-  }
+  // ⭐ 标记 app 已 ready（关键）
+  window.appInitialized = true;
 
-  if (!appInitialized) {
-    appInitialized = true;
-    loadAll();
-  }
+  // ⭐ 最后再开 realtime
+  setupRealtime();
 }
+
 
 
 // =====================
