@@ -108,23 +108,33 @@ function onPointerMove(e){
 async function onPointerUp(e) {
   if (!dragState) return;
 
-  e?.preventDefault();
-  e?.stopPropagation();
+  e.preventDefault();
+  e.stopPropagation();
 
-  const ok = applyDragResult();
-
-  if (ok && dropIndicatorEl) {
-    dropIndicatorEl.classList.add('success');
-    setTimeout(async () => {
-      cleanup();
-      suppressRealtime = true;
-      await loadAll();
-      setTimeout(() => suppressRealtime = false, 300);
-    }, 180);
-  } else {
+  const result = applyDragResult();
+  if (!result || !result.ok) {
     cleanup();
+    return;
   }
+
+  // 视觉反馈
+  if (dropIndicatorEl) {
+    dropIndicatorEl.classList.add('success');
+  }
+
+  cleanup();
+
+  // ===== 真正的 IO 在这里 =====
+  suppressRealtime = true;
+
+  await syncBooking(result.booking);
+  await loadAll();
+
+  setTimeout(() => {
+    suppressRealtime = false;
+  }, 300);
 }
+
 
 // =====================
 // APPLY RESULT
@@ -200,13 +210,11 @@ function applyDragResult(){
 
   // ===== 7️⃣ Supabase 同步（异步）=====
   suppressRealtime = true;
-await syncBooking(booking);
-await loadAll();
-setTimeout(() => {
-  suppressRealtime = false;
-}, 300);
 
-  return true;
+return {
+    ok: true,
+    booking
+  };
 }
 
 // =====================
