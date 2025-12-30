@@ -208,8 +208,13 @@ function applyDragResult(){
     return false;
   }
 
-  // ===== 7️⃣ Supabase 同步（异步）=====
-  suppressRealtime = true;
+  // ===== ⭐⭐ 6️⃣ 本地写回 booking（缺的就是这一步）=====
+Object.assign(booking, {
+  room_id: newRoom.id,
+  room: newRoom.name,
+  check_in: toISODate(newCheckIn),
+  check_out: toISODate(newCheckOut)
+});
 
 return {
     ok: true,
