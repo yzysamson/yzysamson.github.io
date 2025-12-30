@@ -242,6 +242,7 @@ function hasConflict(test){
 // SUPABASE UPDATE
 // =====================
 async function syncBooking(b){
+  console.log('[syncBooking] called with:', b);
   try {
     const { error } = await sb
       .from('bookings')
