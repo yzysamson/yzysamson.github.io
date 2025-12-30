@@ -153,9 +153,9 @@ saveBtn.onclick = async () => {
     return;
   }
 
-  closeModal();
-  // ❌ 不要 loadAll()
-  // ✅ Realtime 会自动触发 reloadBookings()
+    closeModal();
+    await loadAll();    // ✅ 必须用这个
+
 };
 
 
@@ -179,7 +179,7 @@ deleteBtn.onclick = async () => {
   return;
 }
   closeModal();
-  
+  await loadAll();
 };
 
 

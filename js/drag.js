@@ -200,7 +200,8 @@ function applyDragResult(){
   }
 
   // ===== 7️⃣ Supabase 同步（异步）=====
-  syncBooking(booking);
+  await syncBooking(booking);
+  await loadAll();   // ✅ 拖动后必须重建 calendar
 
   return true;
 }
