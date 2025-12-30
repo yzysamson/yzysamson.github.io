@@ -78,7 +78,7 @@ loginBtn.onclick = async () => {
   const { error } = await sb.auth.signInWithOtp({
     email,
     options: {
-      redirectTo: 'https://yzysamson.github.io/booking-calendar/'
+      redirectTo: 'https://yzysamson.github.io/'
     }
   });
 
