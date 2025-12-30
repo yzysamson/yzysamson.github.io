@@ -1,4 +1,4 @@
-console.log("done 6")
+console.log("done 7")
 
 /* ===== LEGEND ===== */
 function buildLegend(){
@@ -171,7 +171,7 @@ function setupRealtime() {
         table: 'bookings'
       },
       payload => {
-        console.log('📡 Realtime booking change:', payload);
+        console.log('[Realtime] booking change:', payload);
         reloadBookings();
       }
     )
