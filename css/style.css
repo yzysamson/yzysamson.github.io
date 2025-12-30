@@ -483,3 +483,59 @@ label,
   -webkit-user-drag: none !important;
 }
 
+/* ===== MODAL INPUT ALIGN FIX ===== */
+.modal-box input,
+.modal-box select {
+  width: 100%;
+  height: 40px;              /* ⬅️ 统一高度 */
+  padding: 0 10px;           /* ⬅️ 左右一致 */
+  font-size: 14px;
+  line-height: 40px;         /* ⬅️ 关键：date 对齐 */
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+/* 特别修正 date input */
+.modal-box input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* ===== USER BAR ===== */
+.user-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 6px;
+}
+
+/* Email：弱化 */
+.user-email {
+  font-size: 12px;
+  color: #666;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Logout：像轻量按钮 */
+.logout-btn {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+  background: #fafafa;
+  color: #333;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #f0f0f0;
+}
+
+.logout-btn:active {
+  background: #eaeaea;
+}
