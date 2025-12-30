@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking Calendar</title>
+
+  <!-- Supabase SDK（必须） -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!-- ===== LOGIN VIEW ===== -->
+<div id="loginView" style="display:none; padding:20px;">
+  <h3>Please sign in</h3>
+  <input
+    type="email"
+    id="loginEmail"
+    placeholder="Email"
+    style="width:100%;height:40px;margin:10px 0;"
+  >
+  <button
+    id="loginBtn"
+    style="width:100%;height:44px;"
+  >
+    Send login link
+  </button>
+</div>
+
+<div id="loadingView" style="
+  display:none;
+  padding:40px;
+  text-align:center;
+  font-size:14px;
+">
+  Loading…
+</div>
+
+
+<!-- ===== APP VIEW ===== -->
+<div id="appView" style="display:none;">
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="page">
+
+  <div class="topbar">
+  <input type="month" id="monthPicker">
+  <div class="legend" id="legend"></div>
+
+  <!-- USER BAR -->
+  <div id="userBar" style="margin-left:auto;display:none;">
+    <span id="userEmail" style="font-size:12px;margin-right:8px;"></span>
+    <button id="logoutBtn">Logout</button>
+  </div>
+</div>
+
+    <!-- SCROLLABLE CALENDAR -->
+    <div class="content">
+      <div id="app"></div>
+    </div>
+
+  </div>
+
+  <!-- ===== SUMMARY TRIGGER ===== -->
+<div id="summaryTrigger">Summary ▲</div>
+
+<!-- SUMMARY BACKDROP -->
+<div id="summaryBackdrop"></div>
+
+<!-- ===== SUMMARY BOTTOM SHEET ===== -->
+<div class="summary-sheet" id="summarySheet">
+  <div class="summary-handle"></div>
+  <div id="summaryContent"></div>
+</div>
+
+</div>
+
+
+<!-- ===== MODAL ===== -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h3 id="modalTitle">Edit Booking</h3>
+    </div>
+
+    <label>Room</label>
+    <select id="roomInput"></select>
+
+    <label>Check-in</label>
+    <input type="date" id="checkinInput">
+
+    <label>Check-out</label>
+    <input type="date" id="checkoutInput">
+
+    <label>Source</label>
+    <select id="sourceInput"></select>
+
+    <label>Price *</label>
+    <input type="number" id="priceInput" min="0.01" step="0.01">
+
+    <label>Remark</label>
+    <input type="text" id="remarkInput">
+
+    <div class="actions">
+      <button id="saveBtn" disabled>Save</button>
+      <button id="deleteBtn" style="display:none">Delete</button>
+      <button onclick="closeModal()">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ===================================================== -->
+
+<!-- 1️⃣ config：sb / util / SOURCES -->
+<script src="js/config.js"></script>
+
+<!-- 2️⃣ state：全局状态 -->
+<script src="js/state.js"></script>
+
+<!-- 3️⃣ dom：DOM 缓存 -->
+<script src="js/dom.js"></script>
+
+<!-- 4️⃣ calendar：定义 buildLegend / buildDays / render -->
+<script src="js/calendar.js"></script>
+
+<script src="js/drag.js"></script>
+
+<!-- 5️⃣ summary：renderSummary -->
+<script src="js/summary.js"></script>
+
+<!-- 6️⃣ modal：openNew / openEdit -->
+<script src="js/modal.js"></script>
+
+<!-- 7️⃣ data：loadAll（使用上面的函数） -->
+<script src="js/data.js"></script>
+
+<!-- 8️⃣ main：入口（最后执行） -->
+<script src="js/main.js"></script>
+
+
+<!-- ===== MORE MENU ===== -->
+<div id="moreMenu"
+  style="
+    position:fixed;
+    top:64px;
+    right:16px;
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 6px 20px rgba(0,0,0,.2);
+    display:none;
+    z-index:1000;
+  ">
+  <div id="dragAction"
+    style="padding:10px 16px;cursor:pointer;">
+    Drag
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,485 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui;background:#fff;color:#111}
+
+/* ===== TOP ===== */
+.topbar{
+  padding:8px;
+  border-bottom:1px solid #e5e5e5;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  overflow-x:auto
+}
+.topbar input{padding:4px 6px;font-size:14px}
+
+/* ===== LEGEND ===== */
+.legend{display:flex;gap:6px;font-size:12px;white-space:nowrap}
+.legend-item{
+  display:flex;align-items:center;gap:4px;
+  padding:4px 6px;border-radius:6px;cursor:pointer
+}
+.legend-item.active{background:#eee}
+.legend-color{width:10px;height:10px;border-radius:3px}
+
+/* ===== GRID ===== */
+.header,.row{display:grid}
+
+/* ===== Y AXIS ===== */
+.room{
+  width:88px;
+  padding:6px;
+  font-size:12px;
+  background:#fafafa;
+  border-right:1px solid #e5e5e5;
+  position:sticky;
+  left:0;
+  z-index:3;
+}
+.header .room{background:#f5f5f5;z-index:4}
+
+/* ===== CELL ===== */
+.cell{
+  height:34px;
+  border:1px solid #eee;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+}
+.cell.selecting{background:rgba(255,56,92,.3)}
+
+/* ===== BAR ===== */
+.bar{
+  height:34px;
+  color:#fff;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:4px;
+  cursor:pointer;
+
+  /* ✅ 只禁止选字，不禁止触摸 */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+
+/* ===== COLORS ===== */
+.src-airbnb{background:#ff385c}
+.src-booking{background:#003580}
+.src-agoda{background:#e60023}
+.src-trip{background:#ff6f00}
+.src-slh{background:#6a5acd}
+.src-walkinwayne{background:#2e8b57}
+.src-walkinsoo{background:#8b4513}
+
+/* ===== SUMMARY ===== */
+#summary{
+  border-top:1px solid #eee;
+  padding:10px;
+  font-size:13px
+}
+.summary-title{
+  font-weight:600;
+  margin:6px 0 4px
+}
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  padding:4px 0;
+  cursor:pointer
+}
+.summary-row:hover{background:#f6f6f6}
+
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  display:none;
+  z-index:999
+}
+.modal-box{
+  background:#fff;
+  border-radius:14px 14px 0 0;
+  padding:10px 12px;
+  position:absolute;
+  bottom:0;left:0;right:0
+}
+.modal-box input,
+.modal-box select{
+  width:100%;
+  height:36px;
+  margin:4px 0;
+  font-size:14px;
+}
+.actions{display:flex;gap:8px}
+.actions button{flex:1}
+#saveBtn:disabled{opacity:.4}
+
+/* ===== PAGE LAYOUT ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.page {
+  height: 100svh; /* mobile safe viewport */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 禁止 body 滚动 */
+}
+
+/* ===== TOP BAR FIXED ===== */
+.topbar {
+  flex: 0 0 auto;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+}
+
+/* ===== SCROLLABLE CENTER ===== */
+.content {
+  flex: 1 1 auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; /* iOS 顺滑滚动 */
+}
+
+/* ===== SUMMARY FIXED ===== */
+#summary {
+  flex: 0 0 auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: #fff;
+}
+
+#app {
+  min-width: max-content; /* 横向正常展开 */
+}
+
+@media (max-width: 768px) {
+  .cell,
+  .bar {
+    font-size: 11px;
+  }
+
+  .room {
+    width: 72px;
+  }
+}
+
+.room {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #fff; 
+}
+
+.header .room {
+  z-index: 6; /* 左上角永远最高 */
+  background: #fff; 
+}
+
+/* ===== SUMMARY TRIGGER ===== */
+#summaryTrigger {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 20;
+
+  background: #111;
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* ===== SUMMARY BOTTOM SHEET ===== */
+.summary-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+
+  max-height: 70svh;
+  transform: translateY(100%);
+  transition: transform 0.25s ease;
+  box-shadow: 0 -10px 30px rgba(0,0,0,.15);
+}
+
+.summary-sheet.show {
+  transform: translateY(0);
+}
+
+.summary-handle {
+  width: 36px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 8px auto;
+}
+
+#summaryContent {
+  padding: 10px;
+  overflow-y: auto;
+  max-height: calc(70svh - 40px);
+  min-height: 1px;   /* Safari / iOS 必须 */
+}
+
+/* ===== SUMMARY TYPO ===== */
+#summaryContent {
+  font-size: 12px;          /* 和 .room 一致 */
+}
+
+.summary-title {
+  font-weight: 600;
+  margin: 8px 0 4px;
+}
+
+.summary-row,
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.summary-total {
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 6px;
+}
+
+/*==================auto font size ======================*/
+.bar {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+
+  /* 只禁止选字 */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.bar-price {
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .bar-price {
+    font-size: 10px;
+  }
+}
+
+
+/* ===== SUMMARY SECTION ===== */
+.summary-section {
+  margin-bottom: 12px;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  padding: 4px 0 2px; /* ⬅️ 下方 padding 变小 */
+}
+
+.summary-total {
+  font-weight: 600;
+}
+
+.summary-row {
+  padding: 2px 0;     /* ⬅️ 原本 4px，减半 */
+  font-size: 12px;
+}
+
+.summary-section {
+  margin-bottom: 16px;   /* 两个 section 之间的距离 */
+}
+
+.summary-row {
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+
+/* ===== MODAL ACTIONS ===== */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.actions button {
+  flex: 1;
+  height: 44px;               /* 关键：变高 */
+  font-size: 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Primary (Save / Update) */
+#saveBtn {
+  background: #111;
+  color: #fff;
+}
+
+/* Disabled */
+#saveBtn:disabled {
+  opacity: 0.4;
+}
+
+/* Delete */
+#deleteBtn {
+  background: #ffecec;
+  color: #c00;
+}
+
+/* Cancel */
+.actions button:last-child {
+  background: #f2f2f2;
+}
+
+/* ===== SUMMARY BACKDROP ===== */
+#summaryBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+
+  background: rgba(0,0,0,.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+/* show backdrop */
+#summaryBackdrop.show {
+  opacity: 1;
+  pointer-events: auto; /* ⬅️ 关键：拦截点击 */
+}
+
+/* ===== SUMMARY SHEET ===== */
+.summary-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+
+  max-height: 70svh;
+  transform: translateY(100%);
+  transition: transform .25s ease;
+}
+
+.summary-sheet.show {
+  transform: translateY(0);
+}
+
+.ghost-invalid {
+  background: rgba(220, 0, 0, 0.75) !important;
+}
+
+.drop-indicator {
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+  border: 2px solid #2ecc71;   /* 绿色 = 可放 */
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.drop-indicator.invalid {
+  border-color: #e74c3c;       /* 红色 = 不可放 */
+}
+
+.drop-indicator.success {
+  border-color: #2ecc71;
+  animation: drop-success 180ms ease-out;
+}
+
+@keyframes drop-success {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+}
+
+/* ===== iOS Safari drag fix ===== */
+.bar {
+  touch-action: none;              /* 禁止浏览器手势 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ===== Disable text selection globally (iOS fix) ===== */
+html, body, .page {
+  -webkit-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none; /* 禁止 iOS copy 菜单 */
+}
+
+/* ===== Allow selection inside modal inputs ===== */
+.modal input,
+.modal textarea {
+  -webkit-user-select: text;
+  user-select: text;
+
+  -webkit-touch-callout: default;
+}
+
+label,
+.legend,
+.topbar,
+#app,
+.summary-sheet {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* =========================================
+   iOS Safari: FULL disable selection
+   ========================================= */
+
+/* 1️⃣ 全页面彻底禁止选中 */
+* {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+
+  -webkit-touch-callout: none !important;
+  -webkit-user-drag: none !important;
+}
+
