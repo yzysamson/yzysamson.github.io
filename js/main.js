@@ -1,6 +1,5 @@
-let appInitialized = false;
-let realtimeStarted = false;
 window.appInitialized = false;
+let realtimeStarted = false;
 
 // =====================
 // AUTH UI
