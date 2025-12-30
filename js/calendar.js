@@ -1,4 +1,4 @@
-console.log("done 14")
+console.log("done 15")
 
 let suppressRealtime = false;
 
@@ -106,8 +106,8 @@ async function reloadBookings() {
   }
 
   BOOKINGS = data;
-  render();
-  renderSummary();
+  render();        // ✅ 只 render
+  renderSummary(); // 可选
 }
 
 // js/calendar.js
@@ -165,22 +165,26 @@ render();
 
 function setupRealtime() {
   sb.channel('bookings-realtime')
-    .on(
-      'postgres_changes',
-      {
-        event: '*',
-        schema: 'public',
-        table: 'bookings'
-      },
-      payload => {
-  if (suppressRealtime) {
-    console.log('[Realtime] ignored (local action)');
-    return;
-  }
-  console.log('[Realtime] booking change:', payload);
-  reloadBookings();
-}
-    )
-    .subscribe();
+  .on(
+    'postgres_changes',
+    {
+      event: '*',
+      schema: 'public',
+      table: 'bookings'
+    },
+    payload => {
+
+      if (window.suppressRealtime) {
+        console.log('[Realtime] ignored (local action)');
+        return;
+      }
+
+      console.log('[Realtime] apply remote change');
+
+      // ⭐ 只更新 BOOKINGS，不重置 UI
+      reloadBookings(); // 注意：只 reload bookings
+    }
+  )
+  .subscribe();
 }
 
