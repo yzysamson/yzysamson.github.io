@@ -1,4 +1,4 @@
-console.log("done 20")
+console.log("done 21")
 
 let suppressRealtime = false;
 
@@ -105,10 +105,16 @@ async function reloadBookings() {
     return;
   }
 
-  BOOKINGS = data;
-  render();        // ✅ 只 render
-  renderSummary(); // 可选
+  // ⭐ 关键：把 room_id 映射成 room name
+  BOOKINGS = data.map(b => ({
+    ...b,
+    room: ROOMS.find(r => r.id === b.room_id)?.name || ''
+  }));
+
+  render();
+  renderSummary();
 }
+
 
 // js/calendar.js
 
