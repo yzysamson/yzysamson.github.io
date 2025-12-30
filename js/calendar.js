@@ -1,5 +1,7 @@
 console.log("done 9")
 
+let suppressRealtime = false;
+
 /* ===== LEGEND ===== */
 function buildLegend(){
   legend.innerHTML = '';
@@ -171,9 +173,13 @@ function setupRealtime() {
         table: 'bookings'
       },
       payload => {
-        console.log('[Realtime] booking change:', payload);
-        reloadBookings();
-      }
+  if (suppressRealtime) {
+    console.log('[Realtime] ignored (local action)');
+    return;
+  }
+  console.log('[Realtime] booking change:', payload);
+  reloadBookings();
+}
     )
     .subscribe();
 }

@@ -152,9 +152,12 @@ saveBtn.onclick = async () => {
     alert(error.message);
     return;
   }
-
-    closeModal();
-    await loadAll();    // ✅ 必须用这个
+suppressRealtime = true;
+closeModal();
+await loadAll();
+setTimeout(() => {
+  suppressRealtime = false;
+}, 300);
 
 };
 
@@ -178,8 +181,12 @@ deleteBtn.onclick = async () => {
   alert(error.message);
   return;
 }
-  closeModal();
-  await loadAll();
+  suppressRealtime = true;
+closeModal();
+await loadAll();
+setTimeout(() => {
+  suppressRealtime = false;
+}, 300);
 };
 
 
