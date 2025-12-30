@@ -1,4 +1,4 @@
-console.log("done 1")
+console.log("done 2")
 
 /* ===== LEGEND ===== */
 function buildLegend(){
@@ -105,6 +105,7 @@ async function reloadBookings() {
 
   BOOKINGS = data;
   render();
+  renderSummary();
 }
 
 // js/calendar.js

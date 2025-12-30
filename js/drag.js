@@ -199,9 +199,6 @@ function applyDragResult(){
     return false;
   }
 
-  // ===== 6️⃣ 本地更新 =====
-  Object.assign(booking, testBooking);
-
   // ===== 7️⃣ Supabase 同步（异步）=====
   syncBooking(booking);
 

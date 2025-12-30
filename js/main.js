@@ -19,7 +19,7 @@ function showApp() {
   if (userBar) userBar.style.display = 'inline-flex';
 
   // ⭐ 只在这里 loadAll
-  loadAll();
+  loadAll(); 
   setupRealtime();
 }
 
@@ -58,7 +58,6 @@ function showApp() {
 
   if (!appInitialized) {
     appInitialized = true;
-    loadAll();
   }
 }
 
@@ -119,25 +118,36 @@ monthPicker.value=new Date().toISOString().slice(0,7);
 monthPicker.onchange = () => {
   const appVisible =
     document.getElementById('appView').style.display !== 'none';
-  if (appVisible) loadAll();
+  if (appVisible) reloadBookings();
 };
 
 
-saveBtn.onclick=async()=>{
-  if(saveBtn.disabled) return;
-  const payload={
-    room_id:+roomInput.value,
-    check_in:checkinInput.value,
-    check_out:checkoutInput.value,
-    source:sourceInput.value,
-    price:Number(priceInput.value),
-    remark:remarkInput.value||null
+saveBtn.onclick = async () => {
+  if (saveBtn.disabled) return;
+
+  const payload = {
+    room_id: +roomInput.value,
+    check_in: checkinInput.value,
+    check_out: checkoutInput.value,
+    source: sourceInput.value,
+    price: Number(priceInput.value),
+    remark: remarkInput.value || null
   };
-  editing
-    ? await sb.from('bookings').update(payload).eq('id',editing.id)
+
+  const { error } = editing
+    ? await sb.from('bookings').update(payload).eq('id', editing.id)
     : await sb.from('bookings').insert(payload);
-  closeModal();loadAll();
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  closeModal();
+  // ❌ 不要 loadAll()
+  // ✅ Realtime 会自动触发 reloadBookings()
 };
+
 
 deleteBtn.onclick = async () => {
 
@@ -154,8 +164,12 @@ deleteBtn.onclick = async () => {
     .delete()
     .eq('id', currentId);
 
+    if (error) {
+  alert(error.message);
+  return;
+}
   closeModal();
-  loadAll();
+  
 };
 
 
