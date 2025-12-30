@@ -1,4 +1,5 @@
 let appInitialized = false;
+let realtimeStarted = false;
 
 // =====================
 // AUTH UI
@@ -18,10 +19,17 @@ function showApp() {
   const userBar = document.getElementById('userBar');
   if (userBar) userBar.style.display = 'inline-flex';
 
-  // ⭐ 只在这里 loadAll
-  loadAll(); 
-  setupRealtime();
+  if (!realtimeStarted) {
+    realtimeStarted = true;
+    setupRealtime(); // ⭐ 真正只跑一次
+  }
+
+  if (!appInitialized) {
+    appInitialized = true;
+    loadAll();
+  }
 }
+
 
 // =====================
 // AUTH GATE (Step 2)
@@ -137,20 +145,13 @@ saveBtn.onclick = async () => {
   };
 
   const { error } = editing
-  ? await sb.from('bookings').update(payload).eq('id', editing.id)
-  : await sb.from('bookings').insert(payload);
-  
-if (error) {
-  if (error.message.includes('exclusion')) {
-    alert(
-      'Booking conflict detected.\n\n' +
-      'This room already has a booking in the selected date range.'
-    );
-  } else {
+    ? await sb.from('bookings').update(payload).eq('id', editing.id)
+    : await sb.from('bookings').insert(payload);
+
+  if (error) {
     alert(error.message);
+    return;
   }
-  return;
-}
 
   closeModal();
   // ❌ 不要 loadAll()
