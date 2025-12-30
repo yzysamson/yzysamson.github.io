@@ -1,4 +1,4 @@
-console.log("done 18")
+console.log("done 19")
 
 let suppressRealtime = false;
 
@@ -186,7 +186,24 @@ function setupRealtime() {
     }
 
     console.log('[Realtime] apply remote change');
-    reloadBookings();
+
+// 只在 booking 影响当前 month 时才刷新 UI
+const b = payload.new || payload.old;
+if (!b) return;
+
+const [y, m] = monthPicker.value.split('-').map(Number);
+const bDate = new Date(b.check_in);
+
+if (
+  bDate.getFullYear() !== y ||
+  bDate.getMonth() + 1 !== m
+) {
+  console.log('[Realtime] change not in current month, skip render');
+  return;
+}
+
+reloadBookings();
+
   }
 )
   .subscribe();
