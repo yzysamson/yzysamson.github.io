@@ -1,4 +1,4 @@
-console.log("done 48")
+console.log("done 1")
 
 /* ===== LEGEND ===== */
 function buildLegend(){
@@ -93,6 +93,20 @@ function render(){
   app.innerHTML = html;
 }
 
+async function reloadBookings() {
+  const { data, error } = await sb
+    .from('bookings')
+    .select('*');
+
+  if (error) {
+    console.error('reloadBookings error:', error);
+    return;
+  }
+
+  BOOKINGS = data;
+  render();
+}
+
 // js/calendar.js
 
 function buildSelects(){
@@ -146,4 +160,20 @@ let DRAG_MODE = false;
 
 render();
 
+function setupRealtime() {
+  sb.channel('bookings-realtime')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'bookings'
+      },
+      payload => {
+        console.log('📡 Realtime booking change:', payload);
+        reloadBookings();
+      }
+    )
+    .subscribe();
+}
 

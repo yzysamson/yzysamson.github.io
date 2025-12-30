@@ -20,6 +20,7 @@ function showApp() {
 
   // ⭐ 只在这里 loadAll
   loadAll();
+  setupRealtime();
 }
 
 // =====================
