@@ -137,13 +137,20 @@ saveBtn.onclick = async () => {
   };
 
   const { error } = editing
-    ? await sb.from('bookings').update(payload).eq('id', editing.id)
-    : await sb.from('bookings').insert(payload);
-
-  if (error) {
+  ? await sb.from('bookings').update(payload).eq('id', editing.id)
+  : await sb.from('bookings').insert(payload);
+  
+if (error) {
+  if (error.message.includes('exclusion')) {
+    alert(
+      'Booking conflict detected.\n\n' +
+      'This room already has a booking in the selected date range.'
+    );
+  } else {
     alert(error.message);
-    return;
   }
+  return;
+}
 
   closeModal();
   // ❌ 不要 loadAll()

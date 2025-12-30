@@ -231,17 +231,20 @@ function hasConflict(test){
 // =====================
 async function syncBooking(b){
   try {
-    await sb
-      .from('bookings')
-      .update({   
-        room_id: b.room_id,
-        check_in: b.check_in,
-        check_out: b.check_out
-      })
-      .eq('id', b.id);
-  } catch (err){
-    console.error('Supabase update failed', err);
-  }
+    const { error } = await sb
+  .from('bookings')
+  .update({
+    room_id: b.room_id,
+    check_in: b.check_in,
+    check_out: b.check_out
+  })
+  .eq('id', b.id);
+
+if (error) {
+  alert('Booking conflict detected');
+  console.error(error);
+}
+
 }
 
 // =====================
