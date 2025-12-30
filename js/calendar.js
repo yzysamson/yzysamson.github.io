@@ -1,4 +1,4 @@
-console.log("done 19")
+console.log("done 20")
 
 let suppressRealtime = false;
 
@@ -187,21 +187,29 @@ function setupRealtime() {
 
     console.log('[Realtime] apply remote change');
 
-// 只在 booking 影响当前 month 时才刷新 UI
 const b = payload.new || payload.old;
 if (!b) return;
 
+// ===== 当前月区间 =====
 const [y, m] = monthPicker.value.split('-').map(Number);
-const bDate = new Date(b.check_in);
+const monthStart = new Date(y, m - 1, 1);
+const monthEnd = new Date(y, m, 0); // 当月最后一天
 
-if (
-  bDate.getFullYear() !== y ||
-  bDate.getMonth() + 1 !== m
-) {
-  console.log('[Realtime] change not in current month, skip render');
+// ===== booking 区间 =====
+const bStart = new Date(b.check_in);
+const bEnd = new Date(b.check_out);
+
+// ⭐⭐ 核心：区间是否有重叠
+const overlaps =
+  bStart <= monthEnd &&
+  bEnd >= monthStart;
+
+if (!overlaps) {
+  console.log('[Realtime] change not overlapping current month, skip render');
   return;
 }
 
+// 只有真正影响当前月，才刷新
 reloadBookings();
 
   }
