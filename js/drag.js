@@ -232,20 +232,24 @@ function hasConflict(test){
 async function syncBooking(b){
   try {
     const { error } = await sb
-  .from('bookings')
-  .update({
-    room_id: b.room_id,
-    check_in: b.check_in,
-    check_out: b.check_out
-  })
-  .eq('id', b.id);
+      .from('bookings')
+      .update({
+        room_id: b.room_id,
+        check_in: b.check_in,
+        check_out: b.check_out
+      })
+      .eq('id', b.id);
 
-if (error) {
-  alert('Booking conflict detected');
-  console.error(error);
+    if (error) {
+      console.error('[syncBooking] supabase error:', error);
+      alert('Failed to update booking');
+    }
+  } catch (err) {
+    console.error('[syncBooking] JS error:', err);
+    alert('Unexpected error while syncing booking');
+  }
 }
 
-}
 
 // =====================
 // CLEANUP
