@@ -1,4 +1,4 @@
-console.log("done 21")
+console.log("done 22")
 
 let suppressRealtime = false;
 
@@ -96,21 +96,14 @@ function render(){
 }
 
 async function reloadBookings() {
-  const { data, error } = await sb
-    .from('bookings')
-    .select('*');
+  const { data, error } = await sb.from('bookings').select('*');
 
   if (error) {
     console.error('reloadBookings error:', error);
     return;
   }
 
-  // ⭐ 关键：把 room_id 映射成 room name
-  BOOKINGS = data.map(b => ({
-    ...b,
-    room: ROOMS.find(r => r.id === b.room_id)?.name || ''
-  }));
-
+  BOOKINGS = normalizeBookings(data || []);
   render();
   renderSummary();
 }

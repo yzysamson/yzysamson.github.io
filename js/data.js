@@ -1,14 +1,15 @@
+function normalizeBookings(data) {
+  return data.map(b => ({
+    ...b,
+    room: ROOMS.find(r => r.id === b.room_id)?.name || ''
+  }));
+}
+
 async function loadAll(){
-  ROOMS=(await sb.from('rooms').select('*').order('id')).data||[];
-  BOOKINGS = (await sb.from('bookings').select('*')).data || [];
+  ROOMS = (await sb.from('rooms').select('*').order('id')).data || [];
 
-// ⭐ 关键：补 room 名字（给 render 用）
-BOOKINGS.forEach(b => {
-  const r = ROOMS.find(r => r.id === b.room_id);
-  b.room = r ? r.name : '';
-});
-
-  BOOKINGS.forEach(b=>delete b.__hidden);
+  const { data } = await sb.from('bookings').select('*');
+  BOOKINGS = normalizeBookings(data || []);
 
   buildLegend();
   buildDays();
@@ -16,3 +17,4 @@ BOOKINGS.forEach(b => {
   render();
   renderSummary();
 }
+
