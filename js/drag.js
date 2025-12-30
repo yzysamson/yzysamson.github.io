@@ -400,3 +400,6 @@ dropIndicatorEl.style.top =
   dragState.targetDayIndex = targetDayIndex;
   dragState.targetRoomIndex = targetRoomIndex;
 }
+
+window.onBarPointerDown = onBarPointerDown;
+window.onPointerCancel = onPointerCancel;
