@@ -3,7 +3,7 @@
 // Programmatic Drag & Drop (Ghost + Conflict + Sync)
 // ===================================================
 
-let didDrag = false;
+window.didDrag = false;
 let dragState = null;
 let longPressTimer = null;
 let dropIndicatorEl = null;
@@ -81,7 +81,7 @@ function startDrag(e, booking){
 function onPointerMove(e){
   if (!dragState) return;
 
-  didDrag = true;
+  window.didDrag = true;
   // ⭐ iOS Safari 必须
   e.preventDefault();
 
@@ -105,27 +105,26 @@ function onPointerMove(e){
 // =====================
 // DROP
 // =====================
-async function onPointerUp(e){
+async function onPointerUp(e) {
   if (!dragState) return;
 
-  // ⭐ 吃掉后续 click（关键）
   e?.preventDefault();
   e?.stopPropagation();
 
   const ok = applyDragResult();
 
-  if (ok && dropIndicatorEl){
+  if (ok && dropIndicatorEl) {
     dropIndicatorEl.classList.add('success');
-    setTimeout(() => {
+    setTimeout(async () => {
       cleanup();
-      render();
+      suppressRealtime = true;
+      await loadAll();
+      setTimeout(() => suppressRealtime = false, 300);
     }, 180);
   } else {
     cleanup();
   }
 }
-
-
 
 // =====================
 // APPLY RESULT
@@ -269,7 +268,7 @@ function cleanup(){
 
   // ⭐ 延迟清掉，确保 click 事件已经被挡掉
   setTimeout(() => {
-    didDrag = false;
+    window.didDrag = false;
   }, 0);
 }
 
