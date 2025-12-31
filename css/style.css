@@ -572,3 +572,50 @@ label,
   border-color: #111;
   background-color: #fff;
 }
+
+/* =========================================
+   MODAL DROPDOWN & DATE PICKER SIMPLIFY PATCH
+   ========================================= */
+
+/* 1️⃣ 统一 dropdown / date 的交互感（去弹性） */
+.modal-box input,
+.modal-box select {
+  transition: none !important;          /* ⬅️ 去掉弹跳动画 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 2️⃣ dropdown（select）外观更“方”，但不生硬 */
+.modal-box select {
+  border-radius: 8px;                   /* ⬅️ 原本 10px，收紧 */
+  background-image: none;               /* ⬅️ 不用系统箭头动画 */
+}
+
+/* 3️⃣ date input：彻底统一 Safari / Chrome 行为 */
+.modal-box input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 8px;                   /* ⬅️ 和 select 一致 */
+  padding-left: 12px;
+  padding-right: 12px;
+  background-color: #fff;
+}
+
+/* 4️⃣ 强制 date 在 focus / active 时“不要变形” */
+.modal-box input[type="date"]:focus,
+.modal-box input[type="date"]:active {
+  transform: none !important;
+  animation: none !important;
+}
+
+/* 5️⃣ 防止 iOS 给 date 加独立动画 */
+.modal-box input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+/* 6️⃣ 所有 modal 输入框 hover / focus 反馈一致 */
+.modal-box input:focus,
+.modal-box select:focus {
+  outline: none;
+  border-color: #111;
+  background-color: #fff;
+}
