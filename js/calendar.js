@@ -1,4 +1,4 @@
-console.log("done 31")
+console.log("done 32")
 
 let suppressRealtime = false;
 
@@ -31,24 +31,23 @@ function buildLegend() {
     `;
 
     el.onclick = () => {
-      // ⭐ 规则：
-      // 如果当前是「All 状态」（FILTER 为空）
-      // → 变成「只选当前」
-      if (FILTER.size === 0) {
-        FILTER.add(s);
-      } else {
-        // 否则正常 toggle
-        FILTER.has(s) ? FILTER.delete(s) : FILTER.add(s);
+  if (FILTER.size === 0) {
+    // 当前是 All → 变成只选这个
+    FILTER.add(s);
+  } else {
+    // 正常 toggle
+    FILTER.has(s) ? FILTER.delete(s) : FILTER.add(s);
 
-        // 如果全删光 → 回到 All
-        if (FILTER.size === 0) {
-          // nothing，render 会显示全部
-        }
-      }
+    // ⭐ 关键新增：如果已经全选 → 回到 All
+    if (FILTER.size === SOURCES.length) {
+      FILTER.clear();
+    }
+  }
 
-      updateLegendUI();
-      render();
-    };
+  updateLegendUI();
+  render();
+};
+
 
     legend.appendChild(el);
   });
