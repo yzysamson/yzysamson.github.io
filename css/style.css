@@ -619,3 +619,116 @@ label,
   border-color: #111;
   background-color: #fff;
 }
+
+/* =========================================
+   MODAL DROPDOWN & DATE PICKER SIMPLIFY PATCH
+   ========================================= */
+
+/* 1️⃣ 统一 dropdown / date 的交互感（去弹性） */
+.modal-box input,
+.modal-box select {
+  transition: none !important;          /* ⬅️ 去掉弹跳动画 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 2️⃣ dropdown（select）外观更“方”，但不生硬 */
+.modal-box select {
+  border-radius: 8px;                   /* ⬅️ 原本 10px，收紧 */
+  background-image: none;               /* ⬅️ 不用系统箭头动画 */
+}
+
+/* 3️⃣ date input：彻底统一 Safari / Chrome 行为 */
+.modal-box input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 8px;                   /* ⬅️ 和 select 一致 */
+  padding-left: 12px;
+  padding-right: 12px;
+  background-color: #fff;
+}
+
+/* 4️⃣ 强制 date 在 focus / active 时“不要变形” */
+.modal-box input[type="date"]:focus,
+.modal-box input[type="date"]:active {
+  transform: none !important;
+  animation: none !important;
+}
+
+/* 5️⃣ 防止 iOS 给 date 加独立动画 */
+.modal-box input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+/* 6️⃣ 所有 modal 输入框 hover / focus 反馈一致 */
+.modal-box input:focus,
+.modal-box select:focus {
+  outline: none;
+  border-color: #111;
+  background-color: #fff;
+}
+
+/* ===== TOPBAR MONTH SELECT (PATCH) ===== */
+.topbar input[type="month"] {
+  height: 34px;
+  padding: 4px 8px;
+
+  border-radius: 6px;           /* ⬅️ 方一点 */
+  border: 1px solid #ddd;
+
+  font-size: 13px;
+  background: #fff;
+}
+
+/* ===== LOGOUT BUTTON (PATCH) ===== */
+.logout-btn {
+  height: 32px;
+  padding: 0 10px;
+
+  border-radius: 6px;           /* ⬅️ 方一点 */
+  border: 1px solid #ffd6d6;
+
+  background: #fff5f5;          /* ⬅️ 淡红色 */
+  color: #c62828;               /* ⬅️ 明确 logout 语义 */
+
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #ffecec;
+}
+
+.logout-btn:active {
+  background: #ffdede;
+}
+
+/* ===== USER EMAIL (PATCH) ===== */
+.user-email {
+  font-size: 12px;
+  color: #777;                  /* ⬅️ 再弱一点 */
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================
+   iOS Safari: PREVENT INPUT AUTO ZOOM
+   ========================================= */
+
+/* 1️⃣ 所有可输入控件：强制 16px（Safari 不会 zoom） */
+.modal-box input,
+.modal-box select,
+.modal-box textarea {
+  font-size: 16px !important;
+}
+
+/* 2️⃣ 视觉上缩回你原本的感觉（不影响 Safari 判断） */
+@media (min-width: 769px) {
+  .modal-box input,
+  .modal-box select,
+  .modal-box textarea {
+    font-size: 14px !important;
+  }
+}
