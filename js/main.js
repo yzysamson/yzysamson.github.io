@@ -161,30 +161,26 @@ setTimeout(() => {
 
 deleteBtn.onclick = async () => {
 
+  if (!editing) return;
+
   const ok = confirm(
-  'Confirm deletion\n\n' +
-  'This booking will be permanently removed.\n' +
-  'This action cannot be undone.'
-);
+    'Confirm deletion\n\n' +
+    'This booking will be permanently removed.\n' +
+    'This action cannot be undone.'
+  );
 
   if (!ok) return;
 
   await sb
     .from('bookings')
     .delete()
-    .eq('id', currentId);
+    .eq('id', editing.id);   // ✅ 用 editing.id
 
-    if (error) {
-  alert(error.message);
-  return;
-}
-  suppressRealtime = true;
-closeModal();
-await loadAll();
-setTimeout(() => {
-  suppressRealtime = false;
-}, 300);
+  editing = null;
+  closeModal();
+  loadAll();
 };
+
 
 
 const summarySheet = document.getElementById('summarySheet');
