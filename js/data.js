@@ -8,8 +8,16 @@ function normalizeBookings(data) {
 async function loadAll(){
   ROOMS = (await sb.from('rooms').select('*').order('id')).data || [];
 
-  const { data } = await sb.from('bookings').select('*');
-  BOOKINGS = normalizeBookings(data || []);
+  const { data, error } = await sb.from('bookings').select('*');
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  BOOKINGS = (data || []).map(b => ({
+    ...b,
+    room: ROOMS.find(r => r.id === b.room_id)?.name || ''
+  }));
 
   buildLegend();
   buildDays();
@@ -17,4 +25,5 @@ async function loadAll(){
   render();
   renderSummary();
 }
+
 
