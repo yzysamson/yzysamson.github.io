@@ -801,3 +801,23 @@ label,
   background: rgba(0,0,0,0.03);
   border-radius: 6px;
 }
+
+/* =========================================
+   SUMMARY SPACING TUNING PATCH
+   ========================================= */
+
+/* 1️⃣ 拉开 By Room / By Source 两个 section */
+.summary-section {
+  margin-bottom: 20px;   /* ⬅️ 只拉开 section 之间 */
+}
+
+/* 2️⃣ Header 和数据之间：收紧 */
+.summary-header {
+  margin-bottom: 4px;    /* ⬅️ 原本太大，这里收紧 */
+  padding-bottom: 4px;
+}
+
+/* 3️⃣ 数据行更贴，但不挤 */
+.summary-row {
+  padding: 3px 0;        /* ⬅️ 比现在更紧一点 */
+}
