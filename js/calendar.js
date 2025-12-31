@@ -1,4 +1,4 @@
-console.log("done 29")
+console.log("done 30")
 
 let suppressRealtime = false;
 
@@ -21,10 +21,17 @@ function buildLegend(){
     el.className = 'legend-item';
     el.innerHTML = `<span class="legend-color src-${norm(s)}"></span>${s}`;
     el.onclick = () => {
-      FILTER.has(s) ? FILTER.delete(s) : FILTER.add(s);
-      el.classList.toggle('active');
-      render();
-    };
+  if (FILTER.size === SOURCES.length) {
+    FILTER.clear();
+    FILTER.add(s);
+  } else {
+    FILTER.has(s) ? FILTER.delete(s) : FILTER.add(s);
+  }
+
+  updateLegendUI();
+  render();
+};
+
     legend.appendChild(el);
   });
 }
