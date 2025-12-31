@@ -821,3 +821,38 @@ label,
 .summary-row {
   padding: 3px 0;        /* ⬅️ 比现在更紧一点 */
 }
+
+/* =========================================
+   SUMMARY STRONG SECTION SEPARATION PATCH
+   ========================================= */
+
+/* 1️⃣ 每个 section 本身就是一个“块” */
+.summary-section {
+  padding: 10px 12px;
+  margin-bottom: 24px;          /* ⬅️ 关键：拉开 By Room / By Source */
+
+  background: #fafafa;          /* ⬅️ 明确区块感 */
+  border-radius: 12px;
+}
+
+/* 2️⃣ Header 紧贴数据，而不是松散 */
+.summary-header {
+  margin-bottom: 4px;           /* ⬅️ 收紧 header → data */
+  padding-bottom: 4px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* 3️⃣ 数据行：紧凑阅读节奏 */
+.summary-row {
+  padding: 3px 0;               /* ⬅️ 比你现在更贴 */
+  font-size: 12px;
+}
+
+/* 4️⃣ 最后一个 section 不要额外空白 */
+.summary-section:last-child {
+  margin-bottom: 8px;
+}
