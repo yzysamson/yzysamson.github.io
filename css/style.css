@@ -679,29 +679,49 @@ label,
   background: #fff;
 }
 
-/* ===== LOGOUT BUTTON (PATCH) ===== */
-.logout-btn {
-  height: 32px;
+/* =========================================
+   TOPBAR CONTROLS UNIFY PATCH
+   (Month select + Logout)
+   ========================================= */
+
+/* Month selector（确保基准） */
+.topbar input[type="month"] {
+  height: 34px;
+  padding: 4px 8px;
+
+  border-radius: 6px;          /* ⬅️ 这是“标准方度” */
+  border: 1px solid #ddd;
+
+  background: #fff;
+  font-size: 13px;
+}
+
+/* Logout button：完全对齐 month select */
+#logoutBtn {
+  height: 34px;               /* ⬅️ 同高度 */
   padding: 0 10px;
 
-  border-radius: 6px;           /* ⬅️ 方一点 */
-  border: 1px solid #ffd6d6;
+  border-radius: 6px;         /* ⬅️ 同方度 */
+  border: 1px solid #f3bcbc;
 
-  background: #fff5f5;          /* ⬅️ 淡红色 */
-  color: #c62828;               /* ⬅️ 明确 logout 语义 */
+  background: #fff0f0;        /* ⬅️ 淡红色底 */
+  color: #c62828;             /* ⬅️ 明确但不刺眼 */
 
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
+
   cursor: pointer;
 }
 
-.logout-btn:hover {
-  background: #ffecec;
+/* Hover / Active：和系统按钮一致 */
+#logoutBtn:hover {
+  background: #ffe5e5;
 }
 
-.logout-btn:active {
-  background: #ffdede;
+#logoutBtn:active {
+  background: #ffdada;
 }
+
 
 /* ===== USER EMAIL (PATCH) ===== */
 .user-email {
