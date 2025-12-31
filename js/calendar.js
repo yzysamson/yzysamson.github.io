@@ -1,40 +1,59 @@
-console.log("done 30")
+console.log("done 31")
 
 let suppressRealtime = false;
 
 /* ===== LEGEND ===== */
-function buildLegend(){
+function buildLegend() {
   legend.innerHTML = '';
 
+  // ===== All =====
   const all = document.createElement('div');
   all.className = 'legend-item active';
   all.textContent = 'All';
+
   all.onclick = () => {
     FILTER.clear();
-    BOOKINGS.forEach(b => delete b.__hidden);
+    updateLegendUI();
     render();
   };
+
   legend.appendChild(all);
 
+  // ===== Sources =====
   SOURCES.forEach(s => {
     const el = document.createElement('div');
-    el.className = 'legend-item';
-    el.innerHTML = `<span class="legend-color src-${norm(s)}"></span>${s}`;
-    el.onclick = () => {
-  if (FILTER.size === SOURCES.length) {
-    FILTER.clear();
-    FILTER.add(s);
-  } else {
-    FILTER.has(s) ? FILTER.delete(s) : FILTER.add(s);
-  }
+    el.className = 'legend-item active';
+    el.dataset.source = s; // ✅ 关键
 
-  updateLegendUI();
-  render();
-};
+    el.innerHTML = `
+      <span class="legend-color src-${norm(s)}"></span>
+      ${s}
+    `;
+
+    el.onclick = () => {
+      // ⭐ 规则：
+      // 如果当前是「All 状态」（FILTER 为空）
+      // → 变成「只选当前」
+      if (FILTER.size === 0) {
+        FILTER.add(s);
+      } else {
+        // 否则正常 toggle
+        FILTER.has(s) ? FILTER.delete(s) : FILTER.add(s);
+
+        // 如果全删光 → 回到 All
+        if (FILTER.size === 0) {
+          // nothing，render 会显示全部
+        }
+      }
+
+      updateLegendUI();
+      render();
+    };
 
     legend.appendChild(el);
   });
 }
+
 
 /* ===== DAYS ===== */
 function buildDays(){
@@ -221,5 +240,25 @@ reloadBookings();
   }
 )
   .subscribe();
+}
+
+function updateLegendUI() {
+  const items = document.querySelectorAll('.legend-item');
+
+  items.forEach(el => {
+    const src = el.dataset.source;
+
+    // All
+    if (!src) {
+      el.classList.toggle('active', FILTER.size === 0);
+      return;
+    }
+
+    // Source
+    const active =
+      FILTER.size === 0 || FILTER.has(src);
+
+    el.classList.toggle('active', active);
+  });
 }
 
