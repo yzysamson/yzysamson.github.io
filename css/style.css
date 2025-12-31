@@ -532,3 +532,43 @@ label,
   gap: 10px;
   padding-left: 6px;
 }
+
+/* =========================================
+   MODAL INPUT CONSISTENCY PATCH
+   （不影响 calendar / drag）
+   ========================================= */
+
+/* 1️⃣ 统一 modal 内所有输入框的视觉基准 */
+.modal-box input,
+.modal-box select {
+  width: 100%;
+  height: 40px;                 /* 统一高度 */
+  padding: 0 12px;              /* 左右一致 */
+  font-size: 14px;
+  font-family: system-ui;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+/* 2️⃣ 专门修正 date input 的“怪异行为” */
+.modal-box input[type="date"] {
+  padding-right: 12px;          /* 覆盖 Safari 内建 padding */
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* 3️⃣ iOS / Safari：统一点击动画 & 触感 */
+.modal-box input,
+.modal-box select {
+  transition: background-color .15s ease, border-color .15s ease;
+}
+
+/* 4️⃣ focus 状态统一（防止 date 跳一下） */
+.modal-box input:focus,
+.modal-box select:focus {
+  outline: none;
+  border-color: #111;
+  background-color: #fff;
+}
