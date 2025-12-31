@@ -752,3 +752,52 @@ label,
     font-size: 14px !important;
   }
 }
+
+/* =========================================
+   SUMMARY SECTION VISUAL SEPARATION PATCH
+   ========================================= */
+
+/* 每一个 summary section 变成“卡片块” */
+.summary-section {
+  padding: 10px 12px;
+  margin-bottom: 14px;
+
+  background: #fafafa;          /* ⬅️ 轻背景区分 */
+  border-radius: 10px;
+}
+
+/* By Room / By Source 标题行强化 */
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Total 金额稍微突出 */
+.summary-total {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* 每一行数据更紧凑 */
+.summary-row {
+  padding: 4px 0;
+  font-size: 12px;
+  color: #333;
+}
+
+/* hover 轻反馈（可点但不吵） */
+.summary-row:hover {
+  background: rgba(0,0,0,0.03);
+  border-radius: 6px;
+}
