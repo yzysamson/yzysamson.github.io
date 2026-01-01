@@ -122,10 +122,16 @@ sb.auth.onAuthStateChange((event, session) => {
 
 
 monthPicker.value=new Date().toISOString().slice(0,7);
+
 monthPicker.onchange = () => {
   const appVisible =
     document.getElementById('appView').style.display !== 'none';
-  if (appVisible) reloadBookings();
+
+  if (!appVisible) return;
+
+  // ⭐ 正确顺序
+  buildDays();        // 1️⃣ 重新生成 DAYS
+  reloadBookings();  // 2️⃣ 拉 booking（或只 render 也行）
 };
 
 
